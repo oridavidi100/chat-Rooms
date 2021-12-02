@@ -1,4 +1,7 @@
 /* chat */
+.input-chat {
+  width: 30rem;
+}
 .chat-page {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
