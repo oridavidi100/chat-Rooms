@@ -1,0 +1,26 @@
+{
+  "name": "chat-Rooms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "mongoose": "^6.0.14",
+    "nodemon": "^2.0.15"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oridavidi100/chat-Rooms.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oridavidi100/chat-Rooms/issues"
+  },
+  "homepage": "https://github.com/oridavidi100/chat-Rooms#readme"
+}
