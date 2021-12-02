@@ -1,10 +1,16 @@
 import { Link } from 'react-router-dom';
 import React, { useRef } from 'react';
+const axios = require('axios');
 
 function Login() {
   const username = useRef();
   const password = useRef();
-  const login = () => {
+  const login = async () => {
+    let response = await axios.post('http://localhost:8080/newuser', {
+      username: username.current.value,
+      password: password.current.value,
+    });
+    console.log(response);
     console.log(username.current.value, password.current.value);
   };
   return (
