@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const mongo = process.env.DATABASE;
 app.use(express.json());
 app.use(cors());
+// const jwt = require('jsonwebtoken');
+require('dotenv').config();
 mongoose
   .connect(
     'mongodb+srv://PhonebookoriDb:WsG9IKGGfG2WbtLn@firstmongo.w0kdo.mongodb.net/chat-history?retryWrites=true&w=majority'

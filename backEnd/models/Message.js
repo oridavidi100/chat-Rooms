@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const MassageSchema = new mongoose.Schema(
+const MessageSchema = new mongoose.Schema(
   {
     username: {
       type: String,
       required: true,
     },
-    body: {
+    message: {
       type: String,
       required: true,
     },
@@ -14,4 +14,4 @@ const MassageSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Massage', MassageSchema);
+module.exports = mongoose.model('message', MessageSchema);

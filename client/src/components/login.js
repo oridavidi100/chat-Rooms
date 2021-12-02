@@ -1,17 +1,24 @@
-import { Link } from 'react-router-dom';
-import React, { useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import React, { useRef, useState } from 'react';
 const axios = require('axios');
 
-function Login() {
-  const username = useRef();
-  const password = useRef();
+function Login(props) {
+  const [error, seterror] = useState('');
+  const username = useRef(null);
+  const password = useRef(null);
+  const navigate = useNavigate();
   const login = async () => {
-    let response = await axios.post('http://localhost:8080/newuser', {
-      username: username.current.value,
-      password: password.current.value,
-    });
-    console.log(response);
-    console.log(username.current.value, password.current.value);
+    try {
+      props.setUser(username.current.value);
+      console.log(password.current.value);
+      let response = await axios.get(`http://localhost:8080/login/${password.current.value}/${username.current.value}`);
+      if ((response.dataa = 'yes')) {
+        navigate('/chat');
+      }
+    } catch (err) {
+      console.log(err);
+      seterror('user not found');
+    }
   };
   return (
     <div id='id01' className='modal'>
@@ -33,6 +40,7 @@ function Login() {
           {/* </Link> */}
         </div>
         <div className='container' style={{ backgroundColor: '#f1f1f1' }}></div>
+        <p>{error}</p>
       </form>
     </div>
   );
