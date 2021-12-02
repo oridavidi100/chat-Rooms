@@ -36,3 +36,16 @@
 }
 
 /* home */
+
+/* register */
+.sign-Up {
+  text-align: center;
+  flex: auto;
+}
+/* register */
+
+/* login */
+.login {
+  text-align: center;
+}
+/* login */

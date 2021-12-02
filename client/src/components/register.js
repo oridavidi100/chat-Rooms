@@ -1,21 +1,34 @@
 import axios from 'axios';
-import { React, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { React, useRef, useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Register() {
-  const username = useRef('');
-  const email = useRef('');
-  const password = useRef('');
+  const [err, seterr] = useState();
+  const username = useRef();
+  const email = useRef();
+  const password = useRef();
+  const navigate = useNavigate();
   const register = async () => {
-    const response = await axios.post('http://localhost:8080/newuser', {
-      username: username.current.value,
-      email: email.current.value,
-      password: password.current.value,
-    });
-    console.log(response);
+    if (!username.current.value || !email.current.value || !password.current.value) {
+      return seterr('you missed somthing');
+    }
+    try {
+      const response = await axios.post('http://localhost:8080/newuser', {
+        username: username.current.value,
+        email: email.current.value,
+        password: password.current.value,
+      });
+      if (response.status === 200) {
+        navigate('/login');
+      }
+    } catch (err) {
+      console.log(err.response.data.error);
+      seterr(err.response.data.error);
+    }
   };
+
   return (
-    <form>
+    <form className='sign-Up'>
       <h3>Sign Up</h3>
 
       <div className='form-group'>
@@ -39,6 +52,7 @@ function Register() {
       <p className='forgot-password text-right'>
         Already registered <Link to='/login'>log in</Link>?
       </p>
+      <p className='error'>{<span>{err}</span>}</p>
     </form>
   );
 }

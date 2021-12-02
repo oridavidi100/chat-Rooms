@@ -1,5 +1,6 @@
 import { React, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 const axios = require('axios');
 
 function Chat(props) {
@@ -26,6 +27,7 @@ function Chat(props) {
       <Link to='/login'>
         <button
           onClick={() => {
+            Cookies.remove('accessToken');
             props.setUser('');
           }}
         >

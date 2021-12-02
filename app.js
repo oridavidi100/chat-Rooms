@@ -1,3 +1,4 @@
+const { errorHandlerMiddleware } = require('./backEnd/middlware/errorHandler');
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -8,9 +9,7 @@ app.use(cors());
 // const jwt = require('jsonwebtoken');
 require('dotenv').config();
 mongoose
-  .connect(
-    'mongodb+srv://PhonebookoriDb:WsG9IKGGfG2WbtLn@firstmongo.w0kdo.mongodb.net/chat-history?retryWrites=true&w=majority'
-  )
+  .connect(process.env.DATABASE)
   .then((result) => {
     console.log('connected to MongoDB');
   })
@@ -19,8 +18,7 @@ mongoose
   });
 const router = require('./backEnd/router/routes');
 app.use('/', router);
-app.get('/', (req, res) => {
-  res.send('ahla yacov');
-});
+
+app.use(errorHandlerMiddleware);
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`app listening at http://localhost:${PORT}`));

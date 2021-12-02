@@ -1,6 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useRef, useState } from 'react';
+import Cookies from 'js-cookie';
 const axios = require('axios');
+
+require('dotenv').config();
 
 function Login(props) {
   const [error, seterror] = useState('');
@@ -10,18 +13,20 @@ function Login(props) {
   const login = async () => {
     try {
       props.setUser(username.current.value);
-      console.log(password.current.value);
+      console.log(password.current.value, username.current.value);
       let response = await axios.get(`http://localhost:8080/login/${password.current.value}/${username.current.value}`);
-      if ((response.dataa = 'yes')) {
+      if ((response.data.ans = 'yes')) {
+        Cookies.set('accessToken', response.data.accessToken);
+        console.log(response.data);
         navigate('/chat');
       }
     } catch (err) {
-      console.log(err);
-      seterror('user not found');
+      console.log(err.response);
+      seterror(err.response.data.error);
     }
   };
   return (
-    <div id='id01' className='modal'>
+    <div id='id01' className='login'>
       <form className='modal-content animate' action='/action_page.php' method='post'>
         <div className='imgcontainer'></div>
         <div className='container'>
@@ -40,6 +45,9 @@ function Login(props) {
           {/* </Link> */}
         </div>
         <div className='container' style={{ backgroundColor: '#f1f1f1' }}></div>
+        <p className='need-To-Sign-Up'>
+          need to <Link to='/register'>sign up </Link>?
+        </p>
         <p>{error}</p>
       </form>
     </div>
