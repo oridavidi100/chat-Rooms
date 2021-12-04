@@ -7,6 +7,7 @@ import './App.css';
 import Register from './components/register';
 function App(props) {
   const [user, setUser] = useState('');
+
   return (
     <div>
       <Router>

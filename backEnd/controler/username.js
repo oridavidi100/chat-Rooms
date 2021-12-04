@@ -14,6 +14,7 @@ exports.addNewUser = async (req, res, next) => {
       username: username,
       email: email,
       password: password,
+      connected: false,
     });
     res.status(200).send(newUser);
   } catch (error) {
@@ -27,6 +28,7 @@ exports.login = async (req, res, next) => {
 
     const usersArr = await User.find({ username: username, password: password });
     if (usersArr.length > 0) {
+      await User.updateOne({ username: username }, { connected: true });
       const user = { password: password, user: username };
       const accessToken = jwt.sign(user, SECRET);
       return res.send({ ans: 'yes', accessToken: accessToken });
@@ -36,4 +38,28 @@ exports.login = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+exports.logout = async (req, res, next) => {
+  try {
+    const { username } = req.params;
+    const thos = await User.updateOne({ username: username }, { connected: false });
+    res.send(thos);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getusers = async (req, res, next) => {
+  const userList = await User.find({});
+  res.set({
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    Connection: 'keep-alive',
+
+    // enabling CORS
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+  });
+  res.write(`data: ${JSON.stringify(userList)}\n\n`);
 };
