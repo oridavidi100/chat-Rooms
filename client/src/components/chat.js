@@ -33,28 +33,34 @@ function Chat(props) {
         const users = JSON.parse(e.data);
         return users.length ? users : [...prevusers, users];
       });
-    const connectedArr = connect.filter(function (user) {
-      return user.connec <= 1000;
-    });
-    setconnect(connectedArr);
+    // let connectedArr = connect.filter(function (user) {
+    //   return user.connected === true;
+    // });
+    // setconnect(connectedArr);
 
     console.log(connect);
-  });
+  }, []);
 
   const inputChat = useRef();
   const postMessage = async () => {
-    let response = await axios.post('http://localhost:8080/newmessage', {
-      username: props.user,
-      message: inputChat.current.value,
-    });
-    inputChat.current.value = '';
+    try {
+      let response = await axios.post('http://localhost:8080/newmessage', {
+        username: props.user,
+        message: inputChat.current.value,
+      });
+      console.log(response);
+      inputChat.current.value = '';
+    } catch (err) {
+      console.log(err.response.data.error);
+    }
   };
   const logout = async () => {
     console.log(props.user);
-    const response = await axios.get(`http://localhost:8080/logout/${props.user}`);
+    const name = props.user;
+    props.setUser('');
+    const response = await axios.get(`http://localhost:8080/logout/${name}`);
     console.log(response);
     Cookies.remove('accessToken');
-    props.setUser('');
   };
   return (
     <div className='chat-page'>
@@ -66,16 +72,18 @@ function Chat(props) {
       </div>
       <div className='contact-list'>
         {connect.map((user) => {
-          return <p key={user}>{user.username}</p>;
+          return <p key={user.username + Math.random()}>{user.username}</p>;
         })}
       </div>
       <div className='chat' id='chat'>
         {messages.map((message) => {
           return (
-            <p key={message}>
-              {checkWhoSend(message.username)}:{message.message}
-              {moment(message.createdAt).calendar()}
-            </p>
+            <div key={message.message + Math.random()}>
+              <p className={checkWhoSend(message.username) === 'you' ? 'myMessage' : 'message'}>
+                {checkWhoSend(message.username)} : {message.message}
+              </p>
+              <p className='time'>{moment(message.createdAt).calendar()}</p>
+            </div>
           );
         })}
       </div>

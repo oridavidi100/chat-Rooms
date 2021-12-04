@@ -23,9 +23,17 @@
   border: 2px solid;
 }
 .chat {
+  overflow: scroll;
   grid-area: 2 / 2 / 8 / 7;
   background-color: goldenrod;
   border: 2px solid;
+}
+.message {
+  text-align: left;
+  background-color: bisque;
+}
+.myMessage {
+  text-align: right;
 }
 
 /* chat */

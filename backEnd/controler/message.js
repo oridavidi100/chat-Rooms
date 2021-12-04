@@ -3,6 +3,9 @@ const axios = require('axios');
 exports.addNewMessage = async (req, res, next) => {
   try {
     let { username, message } = req.body;
+    if (username === undefined) {
+      throw { status: 400, message: 'username not exist' };
+    }
     const NewMessage = await Message.create({
       username: username,
       message: message,

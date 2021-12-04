@@ -7,7 +7,6 @@ exports.addNewUser = async (req, res, next) => {
     let { username, email, password } = req.body;
     const usersArr = await User.find({ $or: [{ email: email }, { username: username }] });
     if (usersArr.length > 0) {
-      // next({ status: 404, messege: 'Username or email already exists' });
       throw { status: 404, message: 'Username or email already exists' };
     }
     const newUser = await User.create({
@@ -31,6 +30,7 @@ exports.login = async (req, res, next) => {
       await User.updateOne({ username: username }, { connected: true });
       const user = { password: password, user: username };
       const accessToken = jwt.sign(user, SECRET);
+      // sendToAll(usersArr[0]);
       return res.send({ ans: 'yes', accessToken: accessToken });
     } else {
       throw { status: 400, message: 'username not exist' };
@@ -51,15 +51,17 @@ exports.logout = async (req, res, next) => {
 };
 
 exports.getusers = async (req, res, next) => {
-  const userList = await User.find({});
+  const userList = await User.find({ connected: true });
   res.set({
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
     Connection: 'keep-alive',
-
     // enabling CORS
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
   });
   res.write(`data: ${JSON.stringify(userList)}\n\n`);
 };
+function sendToAll(stream) {
+  clients.forEach((c) => c.res.write(`data: ${JSON.stringify(stream)}\n\n`));
+}
