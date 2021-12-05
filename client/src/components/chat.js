@@ -1,7 +1,8 @@
 import { React, useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import Cookies, { get } from 'js-cookie';
 import moment from 'moment';
+
 const axios = require('axios');
 
 function Chat(props) {
@@ -45,7 +46,7 @@ function Chat(props) {
   const postMessage = async () => {
     try {
       let response = await axios.post('http://localhost:8080/newmessage', {
-        username: props.user,
+        token: Cookies.get('accessToken'),
         message: inputChat.current.value,
       });
       console.log(response);

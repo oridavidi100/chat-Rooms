@@ -1,17 +1,25 @@
 const Message = require('../models/Message');
 const axios = require('axios');
+const jwt = require('jsonwebtoken');
+SECRET = process.env.SECRET;
 exports.addNewMessage = async (req, res, next) => {
   try {
-    let { username, message } = req.body;
-    if (username === undefined) {
-      throw { status: 400, message: 'username not exist' };
-    }
-    const NewMessage = await Message.create({
-      username: username,
-      message: message,
+    let { token, message } = req.body;
+    jwt.verify(token, SECRET, async (err, user) => {
+      if (err) {
+        return res.status(403).send('Invalid Access Token');
+      }
+      username = user.user;
+      if (username === undefined) {
+        throw { status: 400, message: 'username not exist' };
+      }
+      const NewMessage = await Message.create({
+        username: username,
+        message: message,
+      });
+      res.status(200).json(NewMessage);
+      return sendToAll(NewMessage);
     });
-    res.status(200).json(NewMessage);
-    return sendToAll(NewMessage);
   } catch (error) {
     next(error);
   }
