@@ -33,11 +33,11 @@ function Login(props) {
           <label htmlFor='uname'>
             <b>Username</b>
           </label>
-          <input type='text' ref={username} placeholder='Enter Username' name='uname' required />
+          <input type='text' className='input' ref={username} placeholder='Enter Username' name='uname' required />
           <label htmlFor='psw'>
             <b>Password</b>
           </label>
-          <input type='password' ref={password} placeholder='Enter Password' name='psw' required />
+          <input type='password' className='input' ref={password} placeholder='Enter Password' name='psw' required />
           {/* <Link to='/'> */}
           <button type='button' onClick={login}>
             Login

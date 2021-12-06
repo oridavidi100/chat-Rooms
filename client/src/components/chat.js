@@ -69,7 +69,7 @@ function Chat(props) {
     <div className='chat-page'>
       <div className='input-message'>
         <input ref={inputChat} type='text' className='input-chat'></input>
-        <button type='button' onClick={postMessage}>
+        <button className='send' type='button' onClick={postMessage}>
           <span>&#10145;&#65039;</span>
         </button>
       </div>
@@ -82,7 +82,7 @@ function Chat(props) {
       <div className='chat' id='chat'>
         {messages.map((message) => {
           return (
-            <div key={message.message + Math.random()}>
+            <div className='chatContainer' key={message.message + Math.random()}>
               <p className={message.username === props.user ? 'myMessage' : 'message'}>
                 {checkWhoSend(message.username)} : <br /> {message.message}
               </p>
