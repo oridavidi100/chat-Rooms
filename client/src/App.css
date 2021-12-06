@@ -50,7 +50,7 @@
 form {
   height: 520px;
   width: 400px;
-  background-color: rgba(255, 255, 255, 0.13);
+  background-color: white(255, 255, 255, 0.13);
   position: absolute;
   transform: translate(-50%, -50%);
   top: 50%;
@@ -93,7 +93,7 @@ label {
   font-weight: 300;
 }
 ::placeholder {
-  color: black;
+  color: white;
 }
 button {
   margin-top: 50px;
