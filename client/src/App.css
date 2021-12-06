@@ -25,17 +25,21 @@
 .chat {
   overflow: scroll;
   grid-area: 2 / 2 / 8 / 7;
-  background-color: goldenrod;
+  background-image: url('https://theabbie.github.io/blog/assets/official-whatsapp-background-image.jpg');
   border: 2px solid;
 }
 .message {
   text-align: left;
-  background-color: bisque;
+  background-color: rgb(119, 124, 196);
 }
 .myMessage {
   text-align: right;
+  background-color: green;
 }
-
+.time {
+  color: black;
+  background-color: bisque;
+}
 /* chat */
 
 /* home  */

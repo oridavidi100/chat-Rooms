@@ -21,7 +21,7 @@ function Login(props) {
         navigate('/chat');
       }
     } catch (err) {
-      console.log(err.response);
+      console.log(err.response.data);
       seterror(err.response.data.error);
     }
   };

@@ -9,6 +9,7 @@ exports.addNewMessage = async (req, res, next) => {
       if (err) {
         return res.status(403).send('Invalid Access Token');
       }
+      console.log(user);
       username = user.user;
       if (username === undefined) {
         throw { status: 400, message: 'username not exist' };

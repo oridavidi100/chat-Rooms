@@ -28,23 +28,25 @@ function Chat(props) {
 
   //users
   useEffect(() => {
-    let eventSource = new EventSource('http://localhost:8080/getusers');
-    eventSource.onmessage = (e) =>
-      setconnect((prevusers) => {
-        const users = JSON.parse(e.data);
-        return users.length ? users : [...prevusers, users];
-      });
-    // let connectedArr = connect.filter(function (user) {
-    //   return user.connected === true;
-    // });
-    // setconnect(connectedArr);
-
-    console.log(connect);
-  }, []);
+    const users = async () => {
+      let response = await axios.get('http://localhost:8080/getusers');
+      // if (response.data.length > connect.length) {
+      //   for (let user of response.data) {
+      //     if (!connect.includes(user) && user.username !== props.user) {
+      //       return alert(user.username + 'is connected ');
+      //     }
+      //   }
+      // }
+      setconnect(response.data);
+      console.log(response);
+    };
+    users();
+  });
 
   const inputChat = useRef();
   const postMessage = async () => {
     try {
+      console.log(Cookies.get('accessToken'));
       let response = await axios.post('http://localhost:8080/newmessage', {
         token: Cookies.get('accessToken'),
         message: inputChat.current.value,
@@ -72,6 +74,7 @@ function Chat(props) {
         </button>
       </div>
       <div className='contact-list'>
+        participants:
         {connect.map((user) => {
           return <p key={user.username + Math.random()}>{user.username}</p>;
         })}
@@ -80,8 +83,8 @@ function Chat(props) {
         {messages.map((message) => {
           return (
             <div key={message.message + Math.random()}>
-              <p className={checkWhoSend(message.username) === 'you' ? 'myMessage' : 'message'}>
-                {checkWhoSend(message.username)} : {message.message}
+              <p className={message.username === props.user ? 'myMessage' : 'message'}>
+                {checkWhoSend(message.username)} : <br /> {message.message}
               </p>
               <p className='time'>{moment(message.createdAt).calendar()}</p>
             </div>
