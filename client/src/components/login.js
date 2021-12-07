@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useRef, useState } from 'react';
 import Cookies from 'js-cookie';
+import '../components/log.css';
 const axios = require('axios');
 
 require('dotenv').config();

@@ -1,6 +1,7 @@
 import { React, useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Cookies, { get } from 'js-cookie';
+import '../App.css';
 import moment from 'moment';
 
 const axios = require('axios');

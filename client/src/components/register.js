@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { React, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import './log.css';
 
 function Register() {
   const [err, seterr] = useState();

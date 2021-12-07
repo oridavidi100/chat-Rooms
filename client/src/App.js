@@ -3,7 +3,7 @@ import { React, useState } from 'react';
 import Login from './components/login';
 import Chat from './components/chat';
 import Home from './components/Home';
-import './App.css';
+
 import Register from './components/register';
 function App(props) {
   const [user, setUser] = useState('');
